@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Amar Jewellers — Exquisite Craftsmanship</title>
+  <meta name="description" content="Amar Jewellers — handcrafted gold, diamond & bridal collections. Live inventory powered by Firebase Firestore.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+   <link rel="manifest" href="manifest.json">
+   <meta name="theme-color" content="#d4af37">
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --gold: #d4af37; /* A richer gold color */
+      --gold-faded: rgba(212, 175, 55, 0.15);
+      --muted: #a0a0a0;
+      --card-bg: #141414;
+    }
+    html, body {
+        height: 100%;
+        overscroll-behavior: none;
+    }
+    body {
+        background: var(--bg);
+        color: #f0f0f0;
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4 {
+        font-family: 'Cormorant Garamond', serif;
+        letter-spacing: 0.02em;
+        font-weight: 700; /* Bolder headings */
+    }
+    .gold {
+        color: var(--gold);
+    }
+    .btn-gold {
+        background: var(--gold);
+        color: var(--bg);
+        padding: 0.85rem 2rem;
+        border-radius: 999px;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.05em;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: 1px solid var(--gold);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    }
+    .btn-gold:hover {
+        background: transparent;
+        color: var(--gold);
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
+    }
+     .btn-secondary {
+        color: var(--muted);
+        padding: 0.75rem 1.75rem;
+        transition: color 0.3s ease;
+     }
+    .btn-secondary:hover {
+        color: var(--gold);
+    }
+    .card {
+        background: var(--card-bg);
+        border: 1px solid var(--gold-faded);
+        border-radius: 16px;
+        padding: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      border-color: rgba(212, 175, 55, 0.4);
+    }
+    .jewel-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    .card:hover .jewel-img {
+        transform: scale(1.05);
+    }
+    .fade-in {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    nav a {
+        position: relative;
+        color: #fff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        padding-bottom: 6px;
+    }
+    nav a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: var(--gold);
+        transition: width 0.3s ease;
+    }
+    nav a:hover::after, nav a.active::after {
+        width: 100%;
+    }
+    nav a.active { color: var(--gold); }
+    footer {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+    .form-input {
+      background-color: #1a1a1a;
+      border: 1px solid var(--gold-faded);
+      border-radius: 8px;
+      color: #fff;
+      padding: 0.75rem;
+      width: 100%;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+    }
+    
+    .modal-overlay, .lightbox-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+        display: flex; align-items: center; justify-content: center;
+        z-index: 1000; opacity: 0; visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .modal-overlay.visible, .lightbox-overlay.visible {
+        opacity: 1; visibility: visible;
+    }
+    .modal-content {
+        background: var(--card-bg); border-radius: 16px;
+        padding: 2.5rem; width: 90%; max-width: 800px;
+        transform: scale(0.95); transition: transform 0.3s ease;
+    }
+    .modal-overlay.visible .modal-content {
+        transform: scale(1);
+    }
+    
+    .page { display: none; }
+    .page.active { display: block; animation: pageFadeIn 0.5s ease-out; }
+    @keyframes pageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    #preloader {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background-color: var(--bg); z-index: 9999;
+        display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.5s ease;
+    }
+    .loader {
+        width: 48px;
+        height: 48px;
+        border: 3px solid var(--gold);
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+    .loader::after {
+        content: '';  
+        box-sizing: border-box;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 3px solid;
+        border-color: var(--bg) transparent;
+    }
+
+    @keyframes rotation {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #back-to-top {
+        position: fixed; bottom: 20px; right: 20px;
+        background: var(--gold); color: var(--bg);
+        width: 40px; height: 40px; border-radius: 50%;
+        display: none; align-items: center; justify-content: center;
+        z-index: 100; cursor: pointer; transition: all 0.3s ease;
+    }
+    #back-to-top:hover { transform: scale(1.1); }
+
+    .filter-btn {
+        background: transparent; border: 1px solid var(--gold-faded);
+        color: var(--muted); padding: 0.5rem 1rem;
+        border-radius: 999px; transition: all 0.3s ease;
+    }
+    .filter-btn:hover, .filter-btn.active {
+        background: var(--gold); color: var(--bg);
+        border-color: var(--gold);
+    }
+
+    .lightbox-content { max-width: 90vw; max-height: 90vh; }
+    .lightbox-content img { width: auto; height: auto; max-width: 100%; max-height: 100%; border-radius: 12px; }
+    
+    #hero-video-bg {
+        position: absolute; top: 50%; left: 50%;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        opacity: 0.3;
+    }
+
+    .category-card h3 {
+        transition: transform 0.4s ease;
+    }
+    .category-card:hover h3 {
+        transform: scale(1.1);
+    }
+
+    @media(min-width:768px){ .jewel-img{height:300px} }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+
+  <div id="preloader"><span class="loader"></span></div>
+
+  <header class="sticky top-0 z-50 transition-all duration-300" id="header">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3 page-link">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="var(--gold)" stroke-width="1.5"/><path d="M9 15.5L12 8.5L15 15.5" stroke="var(--gold)" stroke-width="1.5"/><path d="M10 13.5H14" stroke="var(--gold)" stroke-width="1.5"/></svg>
+        <div>
+          <div class="text-xl font-bold font-serif tracking-wider">Amar Jewellers</div>
+          <div style="font-size:.8rem;color:var(--muted)">Siwan, Bihar</div>
+        </div>
+      </a>
+      <nav class="hidden md:flex gap-10 items-center">
+        <a href="#home" class="nav-link page-link active">Home</a>
+        <a href="#collections" class="nav-link page-link">Collections</a>
+        <a href="#gallery" class="nav-link page-link">Gallery</a>
+        <a href="#about" class="nav-link page-link">About Us</a>
+        <a href="#contact" class="nav-link page-link">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a id="whats-app-btn-desktop" class="btn-gold hidden md:block" href="#" target="_blank">WhatsApp</a>
+        <button id="mobile-toggle" class="md:hidden text-white p-2"><i data-lucide="menu"></i></button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-[#111111] border-t border-b border-[var(--gold-faded)]">
+        <nav class="flex flex-col items-center gap-4 py-6">
+            <a href="#home" class="page-link nav-link-mobile text-lg py-2">Home</a>
+            <a href="#collections" class="page-link nav-link-mobile text-lg py-2">Collections</a>
+            <a href="#gallery" class="page-link nav-link-mobile text-lg py-2">Gallery</a>
+            <a href="#about" class="page-link nav-link-mobile text-lg py-2">About Us</a>
+            <a href="#contact" class="page-link nav-link-mobile text-lg py-2">Contact</a>
+            <a id="whats-app-btn-mobile" class="btn-gold mt-4" href="#" target="_blank">WhatsApp Inquiry</a>
+        </nav>
+    </div>
+  </header>
+
+  <main id="app" class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div id="page-container">
+        <!-- HOME PAGE -->
+        <section id="page-home" class="page active space-y-24">
+            <div class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[80vh] text-center md:text-left">
+                <video id="hero-video-bg" autoplay muted loop playsinline>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-faceted-diamond-on-a-black-background-3900-large.mp4" type="video/mp4">
+                </video>
+              <div class="fade-in z-10">
+                <h1 class="text-5xl md:text-7xl font-bold gold">Where Legacy Meets Luxury</h1>
+                <p class="text-gray-300 mt-6 max-w-lg text-lg leading-relaxed mx-auto md:mx-0">Experience the pinnacle of craftsmanship with our handcrafted jewellery, a timeless tradition from the heart of Siwan for every cherished moment.</p>
+                <div class="mt-8 flex gap-4 items-center justify-center md:justify-start">
+                  <a href="#collections" class="btn-gold page-link">Explore Collections</a>
+                  <a href="#contact" class="btn-secondary page-link">Visit Our Store</a>
+                </div>
+              </div>
+              <div class="hidden md:block fade-in z-10"><img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1974&auto=format=fit=crop" alt="Elegant gold jewellery" class="w-full h-full object-cover rounded-lg shadow-2xl shadow-black/50"></div>
+            </div>
+
+            <div class="fade-in card">
+              <div class="flex flex-col md:flex-row gap-8 items-center justify-between text-center md:text-left">
+                <div>
+                  <h2 class="text-4xl">A Legacy of Trust</h2>
+                  <p class="text-base text-gray-400 mt-2">Decades of dedicated craftsmanship and verified patron reviews.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="text-center">
+                        <div class="text-5xl font-bold gold" id="avg-rating">5.0</div>
+                        <div class="flex justify-center mt-1 text-yellow-400"><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i></div>
+                    </div>
+                     <div class="h-16 w-px bg-[var(--gold-faded)] hidden md:block"></div>
+                    <div class="text-center">
+                         <div class="text-5xl font-bold" id="reviews-count">-</div>
+                        <div class="text-sm text-gray-400 mt-1">Total Reviews</div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Featured Categories -->
+            <div class="fade-in">
+                <h2 class="text-4xl text-center mb-12">Explore Our Collections</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <a href="#collections" data-filter="bridal" class="page-link category-card relative rounded-lg overflow-hidden group">
+                        <img src="gold_jewellery.png" alt="Bridal Jewellery" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <h3 class="text-3xl text-white font-serif">Bridal Sets</h3>
+                        </div>
+                    </a>
+                    <a href="#collections" data-filter="rings" class="page-link category-card relative rounded-lg overflow-hidden group">
+                        <img src="Silver_jewellery.png" alt="Silver Jewellery" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <h3 class="text-3xl text-white font-serif">Silver Jewellery</h3>
+                        </div>
+                    </a>
+                    <a href="#collections" data-filter="necklaces" class="page-link category-card relative rounded-lg overflow-hidden group">
+                        <img src="Nekless.png" alt="Gold Necklaces" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+                            <h3 class="text-3xl text-white font-serif">Gold Necklaces</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Craftsmanship Section -->
+            <div class="fade-in grid md:grid-cols-2 gap-12 card items-center">
+               <img src="jeweller_working.png" alt="Jeweller meticulously working on a gold ring" class="w-full h-full object-cover rounded-lg">
+               <div>
+                    <h2 class="text-5xl mb-4">The Art of Craftsmanship</h2>
+                    <p class="text-gray-300 leading-relaxed">Each piece at Amar Jewellers is a testament to the art of fine jewellery making. Our master craftsmen pour their heart and soul into every detail, from the initial sketch to the final polish. We honour traditional techniques passed down through generations while embracing innovation to create heirlooms that last a lifetime.</p>
+                    <div class="mt-6">
+                        <a href="#about" class="btn-gold page-link">Discover Our Story</a>
+                    </div>
+               </div>
+            </div>
+
+            <div class="fade-in">
+                <h2 class="text-4xl text-center mb-12">Words of Trust</h2>
+                <div id="top-reviews-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+            </div>
+        </section>
+
+        <!-- COLLECTIONS PAGE -->
+        <section id="page-collections" class="page space-y-12">
+          <h2 class="text-5xl text-center">Our Collections</h2>
+          <div id="filters-container" class="flex flex-wrap justify-center gap-3"></div>
+          <div id="collections-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"></div>
+        </section>
+
+        <!-- GALLERY PAGE -->
+        <section id="page-gallery" class="page space-y-12">
+          <h2 class="text-5xl text-center">Craftsmanship Gallery</h2>
+          <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="page-about" class="page space-y-24">
+           <div class="fade-in grid md:grid-cols-2 gap-12 card items-center">
+               <img src="o" alt="Jeweller crafting a piece" class="w-full h-full object-cover rounded-lg">
+               <div>
+                    <h2 class="text-5xl mb-4">Our Legacy</h2>
+                    <p class="text-gray-300 leading-relaxed">For generations, Amar Jewellers has been synonymous with artistry and trust. We blend time-honored techniques with contemporary designs, ensuring every piece is not just an ornament, but a legacy. Our commitment to purity and customer satisfaction remains at the heart of everything we create.</p>
+               </div>
+           </div>
+           <div class="fade-in card text-center">
+               <h2 class="text-4xl mb-6">Our Promise</h2>
+               <div class="grid md:grid-cols-3 gap-8">
+                   <div><i data-lucide="gem" class="mx-auto w-10 h-10 text-gold mb-3"></i><h3 class="text-2xl">Purity Guaranteed</h3><p class="text-muted">Only certified, hallmarked gold and ethically sourced diamonds.</p></div>
+                   <div><i data-lucide="crown" class="mx-auto w-10 h-10 text-gold mb-3"></i><h3 class="text-2xl">Master Craftsmanship</h3><p class="text-muted">Handcrafted by skilled artisans with decades of experience.</p></div>
+                   <div><i data-lucide="handshake" class="mx-auto w-10 h-10 text-gold mb-3"></i><h3 class="text-2xl">Lifetime Trust</h3><p class="text-muted">We stand by our creations with lifetime maintenance support.</p></div>
+               </div>
+           </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="page-contact" class="page space-y-12">
+            <h2 class="text-5xl text-center">Visit & Connect</h2>
+           <div id="map-container" class="relative w-full h-[500px] rounded-xl overflow-hidden border-4 border-yellow-500 shadow-lg">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.67288762118!2d84.357408!3d26.2190221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39931750a9821815%3A0x13c313f2a8987383!2sAmar%20Jewellers!5e0!3m2!1sen!2sin!4v1728723948624"
+    width="100%"
+    height="100%"
+    style="border:0; filter: hue-rotate(200deg) saturate(1.5);"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+
+  <!-- Glowing highlight -->
+  <div class="absolute top-1/2 left-1/2 w-12 h-12 bg-yellow-400 rounded-full -translate-x-1/2 -translate-y-1/2 animate-pulse opacity-75"></div>
+</div>
+
+
+
+            <div class="fade-in grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div class="card">
+                <h3 class="text-3xl mb-4">Contact & Visit</h3>
+                <p class="text-gray-300 mb-2 flex items-center gap-3"><i data-lucide="map-pin" class="text-gold w-5 h-5"></i>Gali No.1, Sonar Toli, Siwan, Bihar 841226</p>
+                <p class="text-gray-300 flex items-center gap-3"><i data-lucide="phone" class="text-gold w-5 h-5"></i>+91 70506 28922</p>
+                <p class="text-gray-300 flex items-center gap-3"><i data-lucide="clock" class="text-gold w-5 h-5"></i>Mon - Sat: 10:00 AM - 8:00 PM</p>
+              </div>
+              <div class="card">
+                <h3 class="text-3xl mb-4">Leave a Review</h3>
+                <form id="review-form" class="space-y-4">
+                  <input name="name" placeholder="Your name" required class="form-input" />
+                  <select name="rating" class="form-input"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select>
+                  <textarea name="text" rows="3" placeholder="Share your experience with us" required class="form-input"></textarea>
+                  <div class="flex items-center gap-4 pt-2">
+                    <button type="submit" class="btn-gold">Submit Review</button>
+                    <div id="review-result" class="text-sm text-gray-300"></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+        </section>
+    </div>
+  </main>
+
+  <footer class="mt-24 py-12 bg-black/30 border-t border-[var(--gold-faded)]">
+    <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="mb-4">© <span id="year"></span> Amar Jewellers. All Rights Reserved.</div>
+      <div class="text-sm text-gray-500">Inventory and reviews managed live from Firebase Firestore. A seamless & secure experience.</div>
+    </div>
+  </footer>
+  
+    <div id="item-modal" class="modal-overlay">
+        <div class="modal-content relative">
+            <button id="modal-close-btn" class="absolute -top-3 -right-3 bg-white text-black rounded-full p-1 z-10"><i data-lucide="x"></i></button>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <img id="modal-img" src="" alt="Jewellery item" class="w-full h-full object-cover rounded-lg max-h-[400px]">
+                <div>
+                    <h3 id="modal-name" class="text-4xl gold">Item Name</h3>
+                    <p id="modal-desc" class="text-gray-300 mt-4 leading-relaxed">Detailed description of the item goes here.</p>
+                    <div class="mt-8">
+                        <a id="modal-inquire-btn" href="#" class="btn-gold" target="_blank">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div id="lightbox" class="lightbox-overlay"><div class="lightbox-content"><img id="lightbox-img" src="" alt="Gallery View"></div></div>
+  <button id="back-to-top"><i data-lucide="arrow-up"></i></button>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, query, onSnapshot, addDoc, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    
+    const firebaseConfig = {"apiKey":"AIzaSyClmmIMt7oMwk_uDcCUuzfeO-_WZVhefcQ","authDomain":"amarjewellers-e7f60.firebaseapp.com","projectId":"amarjewellers-e7f60","storageBucket":"amarjewellers-e7f60.appspot.com","messagingSenderId":"187194567147","appId":"1:187194567147:web:c84d6b6d21387d81a9437a"};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const APP_ID = "amarjewellers-e7f60";
+    const INVENTORY_PATH = `artifacts/${APP_ID}/public/data/inventory-items`;
+    const REVIEWS_PATH = `artifacts/${APP_ID}/public/data/reviews`;
+    
+    let inventoryItems = [];
+    const dom = {
+        collectionsGrid: document.getElementById('collections-grid'),
+        galleryGrid: document.getElementById('gallery-grid'),
+        filtersContainer: document.getElementById('filters-container'),
+        reviewForm: document.getElementById('review-form'),
+        reviewResult: document.getElementById('review-result'),
+        preloader: document.getElementById('preloader'),
+        backToTop: document.getElementById('back-to-top'),
+        lightbox: document.getElementById('lightbox'),
+        lightboxImg: document.getElementById('lightbox-img'),
+        pages: document.querySelectorAll('.page'),
+        navLinks: document.querySelectorAll('.page-link'),
+        mobileMenu: document.getElementById('mobile-menu'),
+        mobileToggle: document.getElementById('mobile-toggle'),
+        itemModal: document.getElementById('item-modal'),
+        modalImg: document.getElementById('modal-img'),
+        modalName: document.getElementById('modal-name'),
+        modalDesc: document.getElementById('modal-desc'),
+        modalInquireBtn: document.getElementById('modal-inquire-btn'),
+        modalCloseBtn: document.getElementById('modal-close-btn'),
+        avgRatingEl: document.getElementById('avg-rating'),
+        reviewsCountEl: document.getElementById('reviews-count'),
+        topReviewsGrid: document.getElementById('top-reviews-grid'),
+        header: document.getElementById('header')
+    };
+
+    function createCard(item, index) {
+      const div = document.createElement('div');
+      div.className = 'card fade-in';
+      div.style.transitionDelay = `${index * 100}ms`;
+      div.innerHTML = `
+        <img loading="lazy" src="${item.img}" alt="${item.name}" class="jewel-img" data-item-id="${item.id}"/>
+        <div class="p-2">
+            <h4 class="text-2xl mt-3">${item.name}</h4>
+            <p class="text-sm text-gray-400 mt-1 min-h-[40px]">${item.desc || ''}</p>
+            <div class="flex items-center justify-between mt-4">
+              <div class="text-lg font-semibold gold">On Request</div>
+              <button class="btn-gold !px-4 !py-2 view-details-btn" data-item-id="${item.id}">Details</button>
+            </div>
+        </div>
+      `;
+      return div;
+    }
+
+    function createReviewCard(review) {
+        const stars = '★'.repeat(review.rating || 5) + '☆'.repeat(5 - (review.rating || 5));
+        return `
+            <div class="card fade-in">
+                <div class="flex items-center mb-2"><span class="text-yellow-400">${stars}</span></div>
+                <p class="text-gray-300 italic">"${review.text}"</p>
+                <p class="text-right text-sm gold mt-3">- ${review.name}</p>
+            </div>
+        `;
+    }
+
+    function renderCollections(filter = 'all') {
+        dom.collectionsGrid.innerHTML = '';
+        const filteredItems = filter === 'all' ? inventoryItems : inventoryItems.filter(item => item.category && item.category.toLowerCase() === filter);
+        filteredItems.forEach((item, index) => {
+            const card = createCard(item, index);
+            dom.collectionsGrid.appendChild(card);
+        });
+        document.querySelectorAll('.view-details-btn, .jewel-img').forEach(btn => {
+            btn.addEventListener('click', (e) => showItemDetail(e.currentTarget.dataset.itemId));
+        });
+        initAnimations();
+    }
+    
+    function setupFilters() {
+        const categories = ['all', ...new Set(inventoryItems.map(item => item.category).filter(Boolean))];
+        dom.filtersContainer.innerHTML = categories.map(cat => 
+            `<button class="filter-btn capitalize ${cat === 'all' ? 'active' : ''}" data-filter="${cat.toLowerCase()}">${cat}</button>`
+        ).join('');
+        dom.filtersContainer.addEventListener('click', e => {
+            if (e.target.classList.contains('filter-btn')) {
+                dom.filtersContainer.querySelector('.active')?.classList.remove('active');
+                e.target.classList.add('active');
+                renderCollections(e.target.dataset.filter);
+            }
+        });
+    }
+
+    async function loadInventory() {
+      try {
+        const snapshot = await getDocs(query(collection(db, INVENTORY_PATH)));
+        inventoryItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderCollections();
+        setupFilters();
+        renderGallery();
+      } catch (err) { console.error("Error loading inventory:", err); }
+    }
+    
+    function renderGallery() {
+        dom.galleryGrid.innerHTML = inventoryItems.slice(0, 12).map((item, index) => `
+            <div class="fade-in" style="transition-delay: ${index*50}ms">
+                <img loading="lazy" src="${item.img}" alt="${item.name}" data-img-src="${item.img}" class="gallery-img rounded-lg w-full h-full object-cover min-h-[160px] md:min-h-[240px] aspect-square cursor-pointer transition-transform duration-300 hover:scale-105">
+            </div>
+        `).join('');
+        document.querySelectorAll('.gallery-img').forEach(img => img.addEventListener('click', e => showLightbox(e.target.dataset.imgSrc)));
+    }
+    
+    function initReviewsListener() {
+      try {
+        onSnapshot(query(collection(db, REVIEWS_PATH)), snapshot => {
+          const reviews = snapshot.docs.map(doc => doc.data());
+          const total = reviews.reduce((acc, r) => acc + (r.rating || 5), 0);
+          const avg = reviews.length ? (total / reviews.length).toFixed(1) : '5.0';
+          dom.avgRatingEl.textContent = avg;
+          dom.reviewsCountEl.textContent = `${reviews.length || '0'}`;
+          reviews.sort((a, b) => (b.rating || 5) - (a.rating || 5));
+          dom.topReviewsGrid.innerHTML = reviews.slice(0, 3).map(createReviewCard).join('');
+          initAnimations();
+        });
+      } catch (err) { console.error("Error setting reviews listener:", err); }
+    }
+
+    function showItemDetail(itemId) {
+        const item = inventoryItems.find(i => i.id === itemId);
+        if (!item) return;
+        dom.modalImg.src = item.img;
+        dom.modalName.textContent = item.name;
+        dom.modalDesc.textContent = item.longDesc || item.desc || 'No description available.';
+        const waText = `Hello, I am interested in ${item.name}. Please share price/availability. Image: ${item.img}`;
+        dom.modalInquireBtn.href = `https://wa.me/917050628922?text=${encodeURIComponent(waText)}`;
+        dom.itemModal.classList.add('visible');
+    }
+
+    function hideItemDetail() { dom.itemModal.classList.remove('visible'); }
+
+    function showLightbox(src) {
+        dom.lightboxImg.src = src;
+        dom.lightbox.classList.add('visible');
+    }
+    
+    function hideLightbox() { dom.lightbox.classList.remove('visible'); }
+    
+    function showPage(pageId) {
+        dom.pages.forEach(p => p.classList.toggle('active', p.id === `page-${pageId}`));
+        document.querySelectorAll('.nav-link').forEach(l => {
+            const link = l.closest('a');
+            if (link) {
+                link.classList.toggle('active', link.hash === `#${pageId}`);
+            }
+        });
+        window.scrollTo(0, 0);
+        initAnimations();
+    }
+
+    function initAnimations() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    }
+    
+    function initMobileMenu() {
+        dom.mobileToggle.addEventListener('click', () => dom.mobileMenu.classList.toggle('hidden'));
+        dom.mobileMenu.querySelectorAll('.page-link').forEach(link => link.addEventListener('click', () => dom.mobileMenu.classList.add('hidden')));
+    }
+
+    function setupEventListeners() {
+        dom.navLinks.forEach(link => link.addEventListener('click', e => {
+            e.preventDefault();
+            const pageId = link.hash.substring(1);
+            const filter = link.dataset.filter;
+
+            showPage(pageId);
+
+            if (pageId === 'collections' && filter) {
+                setTimeout(() => {
+                    const filterButtons = dom.filtersContainer.querySelectorAll('.filter-btn');
+                    filterButtons.forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.filter === filter);
+                    });
+                    renderCollections(filter);
+                }, 100);
+            }
+        }));
+        dom.modalCloseBtn.addEventListener('click', hideItemDetail);
+        dom.itemModal.addEventListener('click', e => { if (e.target === dom.itemModal) hideItemDetail(); });
+        dom.lightbox.addEventListener('click', hideLightbox);
+        dom.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', () => {
+            dom.header.style.backgroundColor = window.scrollY > 50 ? 'rgba(10, 10, 10, 0.8)' : 'transparent';
+            dom.header.style.backdropFilter = window.scrollY > 50 ? 'blur(10px)' : 'none';
+            dom.backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+        dom.reviewForm.addEventListener('submit', async e => {
+            e.preventDefault();
+            dom.reviewResult.textContent = 'Submitting...';
+            const formData = new FormData(dom.reviewForm);
+            try {
+                await addDoc(collection(db, REVIEWS_PATH), {
+                    name: formData.get('name'), text: formData.get('text'),
+                    rating: parseInt(formData.get('rating') || '5'), timestamp: serverTimestamp()
+                });
+                dom.reviewResult.textContent = "Thank you!";
+                dom.reviewForm.reset();
+                setTimeout(() => dom.reviewResult.textContent = '', 3000);
+            } catch (err) {
+                console.error("Failed to submit review:", err);
+                dom.reviewResult.textContent = "Failed to submit.";
+            }
+        });
+    }
+
+    (async function init() {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      lucide.createIcons();
+      initMobileMenu();
+      setupEventListeners();
+      await loadInventory();
+      initReviewsListener();
+      showPage(window.location.hash ? window.location.hash.substring(1) : 'home');
+      dom.preloader.style.opacity = '0';
+      setTimeout(() => dom.preloader.style.display = 'none', 500);
+    })();
+
+    const directionsBtn = document.getElementById('get-directions-btn');
+const storeLat = 26.2190221; // Amar Jewellers latitude
+const storeLng = 84.357408;  // Amar Jewellers longitude
+
+directionsBtn.addEventListener('click', () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                const userLat = position.coords.latitude;
+                const userLng = position.coords.longitude;
+                const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${storeLat},${storeLng}&travelmode=driving`;
+                window.open(directionsUrl, '_blank');
+            },
+            error => {
+                alert('Unable to get your location. Please allow location access and try again.');
+                console.error(error);
+            }
+        );
+    } else {
+        alert('Geolocation is not supported by your browser.');
+    }
+});
+
+  </script>
+
+  <button id="install-btn" style="display:none;position:fixed;bottom:80px;right:20px;background:#d4af37;color:#fff;border:none;padding:12px 20px;border-radius:50px;cursor:pointer;z-index:1000;">Install App</button>
+
+<script>
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    document.getElementById('install-btn').style.display = 'inline-block';
+});
+
+document.getElementById('install-btn').addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const choice = await deferredPrompt.userChoice;
+        console.log(choice.outcome);
+        deferredPrompt = null;
+        document.getElementById('install-btn').style.display = 'none';
+    }
+});
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log('Service Worker registered'))
+    .catch(err => console.log('SW failed:', err));
+}
+</script>
+
+</body>
+</html>
+
