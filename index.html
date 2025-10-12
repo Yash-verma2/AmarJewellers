@@ -143,7 +143,7 @@
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
     }
-    
+
     .modal-overlay, .lightbox-overlay {
         position: fixed; top: 0; left: 0; right: 0; bottom: 0;
         background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
@@ -162,7 +162,7 @@
     .modal-overlay.visible .modal-content {
         transform: scale(1);
     }
-    
+
     .page { display: none; }
     .page.active { display: block; animation: pageFadeIn 0.5s ease-out; }
     @keyframes pageFadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -201,7 +201,7 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    
+
     #back-to-top {
         position: fixed; bottom: 20px; right: 20px;
         background: var(--gold); color: var(--bg);
@@ -223,7 +223,7 @@
 
     .lightbox-content { max-width: 90vw; max-height: 90vh; }
     .lightbox-content img { width: auto; height: auto; max-width: 100%; max-height: 100%; border-radius: 12px; }
-    
+
     #hero-video-bg {
         position: absolute; top: 50%; left: 50%;
         width: 100%; height: 100%;
@@ -318,7 +318,7 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- Featured Categories -->
             <div class="fade-in">
                 <h2 class="text-4xl text-center mb-12">Explore Our Collections</h2>
@@ -379,7 +379,7 @@
         <!-- ABOUT PAGE -->
         <section id="page-about" class="page space-y-24">
            <div class="fade-in grid md:grid-cols-2 gap-12 card items-center">
-               <img src="o" alt="Jeweller crafting a piece" class="w-full h-full object-cover rounded-lg">
+               <img src="our_lagacy.png" alt="Jeweller crafting a piece" class="w-full h-full object-cover rounded-lg">
                <div>
                     <h2 class="text-5xl mb-4">Our Legacy</h2>
                     <p class="text-gray-300 leading-relaxed">For generations, Amar Jewellers has been synonymous with artistry and trust. We blend time-honored techniques with contemporary designs, ensuring every piece is not just an ornament, but a legacy. Our commitment to purity and customer satisfaction remains at the heart of everything we create.</p>
@@ -446,7 +446,7 @@
       <div class="text-sm text-gray-500">Inventory and reviews managed live from Firebase Firestore. A seamless & secure experience.</div>
     </div>
   </footer>
-  
+
     <div id="item-modal" class="modal-overlay">
         <div class="modal-content relative">
             <button id="modal-close-btn" class="absolute -top-3 -right-3 bg-white text-black rounded-full p-1 z-10"><i data-lucide="x"></i></button>
@@ -468,14 +468,14 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getFirestore, collection, query, onSnapshot, addDoc, serverTimestamp, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-    
+
     const firebaseConfig = {"apiKey":"AIzaSyClmmIMt7oMwk_uDcCUuzfeO-_WZVhefcQ","authDomain":"amarjewellers-e7f60.firebaseapp.com","projectId":"amarjewellers-e7f60","storageBucket":"amarjewellers-e7f60.appspot.com","messagingSenderId":"187194567147","appId":"1:187194567147:web:c84d6b6d21387d81a9437a"};
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const APP_ID = "amarjewellers-e7f60";
     const INVENTORY_PATH = `artifacts/${APP_ID}/public/data/inventory-items`;
     const REVIEWS_PATH = `artifacts/${APP_ID}/public/data/reviews`;
-    
+
     let inventoryItems = [];
     const dom = {
         collectionsGrid: document.getElementById('collections-grid'),
@@ -500,7 +500,8 @@
         avgRatingEl: document.getElementById('avg-rating'),
         reviewsCountEl: document.getElementById('reviews-count'),
         topReviewsGrid: document.getElementById('top-reviews-grid'),
-        header: document.getElementById('header')
+        header: document.getElementById('header'),
+        categoryCards: document.querySelectorAll('.category-card')
     };
 
     function createCard(item, index) {
@@ -544,7 +545,7 @@
         });
         initAnimations();
     }
-    
+
     function setupFilters() {
         const categories = ['all', ...new Set(inventoryItems.map(item => item.category).filter(Boolean))];
         dom.filtersContainer.innerHTML = categories.map(cat => 
@@ -568,7 +569,7 @@
         renderGallery();
       } catch (err) { console.error("Error loading inventory:", err); }
     }
-    
+
     function renderGallery() {
         dom.galleryGrid.innerHTML = inventoryItems.slice(0, 12).map((item, index) => `
             <div class="fade-in" style="transition-delay: ${index*50}ms">
@@ -577,7 +578,7 @@
         `).join('');
         document.querySelectorAll('.gallery-img').forEach(img => img.addEventListener('click', e => showLightbox(e.target.dataset.imgSrc)));
     }
-    
+
     function initReviewsListener() {
       try {
         onSnapshot(query(collection(db, REVIEWS_PATH)), snapshot => {
@@ -610,9 +611,9 @@
         dom.lightboxImg.src = src;
         dom.lightbox.classList.add('visible');
     }
-    
+
     function hideLightbox() { dom.lightbox.classList.remove('visible'); }
-    
+
     function showPage(pageId) {
         dom.pages.forEach(p => p.classList.toggle('active', p.id === `page-${pageId}`));
         document.querySelectorAll('.nav-link').forEach(l => {
@@ -633,7 +634,7 @@
         }, { threshold: 0.1 });
         document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     }
-    
+
     function initMobileMenu() {
         dom.mobileToggle.addEventListener('click', () => dom.mobileMenu.classList.toggle('hidden'));
         dom.mobileMenu.querySelectorAll('.page-link').forEach(link => link.addEventListener('click', () => dom.mobileMenu.classList.add('hidden')));
@@ -685,11 +686,35 @@
         });
     }
 
+    // Ensure category cards directly navigate to collections and apply filter (stronger handler)
+    function wireCategoryCards() {
+        document.querySelectorAll('.category-card').forEach(a => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filter = a.dataset.filter;
+                showPage('collections');
+                // Small delay to allow collections page to become visible and filters to initialize
+                setTimeout(() => {
+                    const btn = Array.from(dom.filtersContainer.querySelectorAll('.filter-btn')).find(b => b.dataset.filter === (filter || 'all'));
+                    dom.filtersContainer.querySelector('.active')?.classList.remove('active');
+                    if (btn) {
+                        btn.classList.add('active');
+                        renderCollections(btn.dataset.filter);
+                        btn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                    } else {
+                        renderCollections(filter || 'all');
+                    }
+                }, 120);
+            });
+        });
+    }
+
     (async function init() {
       document.getElementById('year').textContent = new Date().getFullYear();
       lucide.createIcons();
       initMobileMenu();
       setupEventListeners();
+      wireCategoryCards();
       await loadInventory();
       initReviewsListener();
       showPage(window.location.hash ? window.location.hash.substring(1) : 'home');
@@ -697,28 +722,30 @@
       setTimeout(() => dom.preloader.style.display = 'none', 500);
     })();
 
+    // Live Directions support
+    const storeLat = 26.2190221; // Amar Jewellers latitude
+    const storeLng = 84.357408;  // Amar Jewellers longitude
     const directionsBtn = document.getElementById('get-directions-btn');
-const storeLat = 26.2190221; // Amar Jewellers latitude
-const storeLng = 84.357408;  // Amar Jewellers longitude
-
-directionsBtn.addEventListener('click', () => {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            position => {
-                const userLat = position.coords.latitude;
-                const userLng = position.coords.longitude;
-                const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${storeLat},${storeLng}&travelmode=driving`;
-                window.open(directionsUrl, '_blank');
-            },
-            error => {
-                alert('Unable to get your location. Please allow location access and try again.');
-                console.error(error);
-            }
-        );
-    } else {
-        alert('Geolocation is not supported by your browser.');
+    function getLiveDirections() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    const userLat = position.coords.latitude;
+                    const userLng = position.coords.longitude;
+                    const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${storeLat},${storeLng}&travelmode=driving`;
+                    window.open(directionsUrl, '_blank');
+                },
+                error => {
+                    alert('Unable to get your location. Please allow location access and try again.');
+                    console.error(error);
+                },
+                { enableHighAccuracy: true, timeout: 10000 }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser.');
+        }
     }
-});
+    if (directionsBtn) directionsBtn.addEventListener('click', getLiveDirections);
 
   </script>
 
@@ -736,9 +763,12 @@ document.getElementById('install-btn').addEventListener('click', async () => {
     if (deferredPrompt) {
         deferredPrompt.prompt();
         const choice = await deferredPrompt.userChoice;
-        console.log(choice.outcome);
+        console.log('PWA install choice:', choice.outcome);
         deferredPrompt = null;
         document.getElementById('install-btn').style.display = 'none';
+    } else {
+        // Fallback help dialog for browsers that don't support the event
+        alert('To install this app: open your browser menu and choose "Add to Home screen" (or "Install").');
     }
 });
 </script>
@@ -752,4 +782,3 @@ if ('serviceWorker' in navigator) {
 
 </body>
 </html>
-
