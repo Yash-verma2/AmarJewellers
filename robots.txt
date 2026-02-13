@@ -1,0 +1,29 @@
+# Robots.txt for Amar Jewellers
+# Optimized for maximum SEO crawling
+
+User-agent: *
+Allow: /
+
+# Allow all search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Disallow sensitive or duplicate content (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+
+# Sitemap location
+Sitemap: https://amarjewellers.vercel.app/sitemap.xml
+
+# Crawl delay (optional, helps prevent server overload)
+Crawl-delay: 1
