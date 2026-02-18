@@ -77,29 +77,29 @@
             --gold-dark: #b69121;
             /* Gradient Text */
             --gold-gradient: linear-gradient(135deg, #f1d78a 0%, #d4af37 50%, #b69121 100%);
-            --gold-faded: rgba(212, 175, 55, 0.1);
-            --muted: #a0a0a0;
-            --card-bg: #0f0f0f;
-            --glass-bg: rgba(20, 20, 20, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0a0;
+            --gold-faded: rgba(212, 175, 55, 0.08);
+            --muted: #888888;
+            --card-bg: #0d0d0d;
+            --glass-bg: rgba(15, 15, 15, 0.8);
+            --glass-border: rgba(212, 175, 55, 0.12);
+            --text-main: #ffffff;
+            --text-muted: #999999;
+            --section-spacing: 120px;
         }
 
         [data-theme="light"] {
-            --bg: #f9f5f0;
-            /* Creamy white */
-            --gold: #b8860b;
+            --bg: #fdfcfb;
+            --gold: #9d7a1e;
             /* Darker gold for better contrast on light */
             --gold-light: #e6c200;
-            --gold-dark: #8a6508;
-            --gold-gradient: linear-gradient(135deg, #e6c200 0%, #b8860b 50%, #8a6508 100%);
-            --gold-faded: rgba(184, 134, 11, 0.1);
+            --gold-dark: #7a5a06;
+            --gold-gradient: linear-gradient(135deg, #b8860b 0%, #9d7a1e 50%, #7a5a06 100%);
+            --gold-faded: rgba(157, 122, 30, 0.08);
             --muted: #666666;
             --card-bg: #ffffff;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(184, 134, 11, 0.15);
-            --text-main: #1a1a1a;
+            --glass-bg: rgba(253, 252, 251, 0.9);
+            --glass-border: rgba(157, 122, 30, 0.15);
+            --text-main: #111111;
             --text-muted: #555555;
         }
 
@@ -111,7 +111,8 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
-            transition: background 0.5s ease, color 0.5s ease;
+            transition: background 0.6s ease, color 0.6s ease;
+            line-height: 1.6;
         }
 
         h1,
@@ -119,8 +120,9 @@
         h3,
         h4 {
             font-family: 'Cormorant Garamond', serif;
-            letter-spacing: 0.02em;
-            font-weight: 700;
+            letter-spacing: 0.03em;
+            font-weight: 600;
+            line-height: 1.2;
         }
 
         .gold {
@@ -138,15 +140,15 @@
         .btn-gold {
             background: var(--gold-gradient);
             color: #000;
-            padding: 0.85rem 2.5rem;
-            border-radius: 999px;
-            font-weight: 600;
+            padding: 1rem 3rem;
+            border-radius: 0;
+            font-weight: 500;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.1em;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             display: inline-block;
-            border: none;
+            border: 1px solid transparent;
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -159,65 +161,85 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.2);
-            opacity: 0;
+            background: var(--text-main);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
             z-index: -1;
-            transition: opacity 0.3s ease;
         }
 
         .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
         }
 
         .btn-gold:hover::before {
-            opacity: 1;
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .btn-secondary {
-            color: var(--muted);
-            padding: 0.75rem 1.75rem;
+            color: var(--text-main);
+            padding: 0.75rem 0;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            position: relative;
             transition: color 0.3s ease;
         }
 
-        .btn-secondary:hover {
-            color: var(--gold);
+        .btn-secondary::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        .btn-secondary:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
         .card {
             background: var(--card-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            border-radius: 0;
+            padding: 1.5rem;
+            transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
             overflow: hidden;
             position: relative;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            background: #161616;
-            border-color: rgba(212, 175, 55, 0.2);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(212, 175, 55, 0.4);
         }
 
         .jewel-img {
             width: 100%;
-            height: 280px;
+            height: 320px;
             object-fit: cover;
-            border-radius: 12px;
+            border-radius: 0;
             cursor: pointer;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .card:hover .jewel-img {
-            transform: scale(1.03);
+            transform: scale(1.08);
         }
 
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
 
         .fade-in.is-visible {
@@ -228,24 +250,33 @@
         /* Glass Navbar */
         header {
             transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease;
+            background: transparent;
         }
 
         header.scrolled {
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(12px);
+            background: var(--glass-bg) !important;
+            backdrop-filter: blur(20px) !important;
             border-bottom: 1px solid var(--glass-border);
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
 
-        nav a {
-            position: relative;
-            color: #e0e0e0;
+        .nav-link {
+            color: var(--text-muted);
             text-decoration: none;
             transition: color 0.3s ease;
             font-size: 0.9rem;
             font-weight: 500;
             letter-spacing: 0.02em;
+        }
+
+        [data-theme="light"] .nav-link {
+            color: #333333;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--gold);
         }
 
         nav a::after {
@@ -850,25 +881,371 @@
         /* Light theme specific fixes */
         [data-theme="light"] .form-input {
             background-color: #ffffff;
-            border: 1px solid rgba(184, 134, 11, 0.3);
+            border: 1px solid rgba(157, 122, 30, 0.3);
         }
 
         [data-theme="light"] .comment-modal {
             background: #ffffff;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="light"] .modal-content {
             background: #ffffff;
+            color: #111111;
         }
 
         [data-theme="light"] .card {
             background: #ffffff;
+            border-color: rgba(157, 122, 30, 0.1);
         }
 
         [data-theme="light"] .card:hover {
-            background: #f9f9f9;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            box-shadow: 0 30px 60px rgba(157, 122, 30, 0.12);
+            border-color: var(--gold);
+        }
+
+        [data-theme="light"] .btn-gold {
+            color: #ffffff;
+        }
+
+        [data-theme="light"] .btn-gold:hover {
+            color: var(--gold);
+        }
+
+        /* LUXURY MOBILE MENU REDESIGN */
+        #mobile-menu {
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            background: rgba(5, 5, 5, 0.95);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            visibility: hidden;
+            display: flex !important;
+            transform: translateY(-20px);
+        }
+
+        #mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        [data-theme="light"] #mobile-menu {
+            background: rgba(253, 252, 251, 0.95);
+        }
+
+        .nav-link-mobile {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 3rem;
+            line-height: 1.1;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        #mobile-menu.active .nav-link-mobile {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered Entrance */
+        #mobile-menu.active .nav-link-mobile:nth-child(1) {
+            transition-delay: 0.2s;
+        }
+
+        #mobile-menu.active .nav-link-mobile:nth-child(2) {
+            transition-delay: 0.3s;
+        }
+
+        #mobile-menu.active .nav-link-mobile:nth-child(3) {
+            transition-delay: 0.4s;
+        }
+
+        #mobile-menu.active .nav-link-mobile:nth-child(4) {
+            transition-delay: 0.5s;
+        }
+
+        #mobile-menu.active .nav-link-mobile:nth-child(5) {
+            transition-delay: 0.6s;
+        }
+
+        #mobile-menu.active .mobile-footer-item {
+            transition-delay: 0.7s;
+        }
+
+        .mobile-footer-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #mobile-menu.active .mobile-footer-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        [data-theme="light"] .nav-link-mobile {
+            color: #111111;
+        }
+
+        [data-theme="light"] .text-white\/90 {
+            color: rgba(0, 0, 0, 0.9);
+        }
+
+        [data-theme="light"] .text-white\/80 {
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        [data-theme="light"] .text-white\/70 {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        [data-theme="light"] .text-white\/60 {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        [data-theme="light"] .text-white\/50 {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        [data-theme="light"] .text-white\/40 {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="light"] .text-white\/30 {
+            color: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="light"] .text-white\/20 {
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .text-white\/10 {
+            color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .text-gray-100 {
+            color: #f3f4f6;
+        }
+
+        [data-theme="light"] .text-gray-200 {
+            color: #e5e7eb;
+        }
+
+        [data-theme="light"] .text-gray-300 {
+            color: #444444;
+        }
+
+        [data-theme="light"] .text-gray-400 {
+            color: #555555;
+        }
+
+        [data-theme="light"] .text-gray-500 {
+            color: #666666;
+        }
+
+        [data-theme="light"] .text-gray-600 {
+            color: #777777;
+        }
+
+        [data-theme="light"] .border-white\/5 {
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .border-white\/10 {
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .border-white\/20 {
+            border-color: rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .border-white\/30 {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        [data-theme="light"] .bg-white\/5 {
+            background-color: rgba(0, 0, 0, 0.03);
+        }
+
+        [data-theme="light"] .bg-white\/10 {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="light"] .bg-white\/20 {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="light"] .bg-white\/30 {
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        [data-theme="light"] .bg-card-bg\/80 {
+            background-color: rgba(255, 255, 255, 0.85);
+        }
+
+        [data-theme="light"] .bg-card-bg\/50 {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+
+        [data-theme="light"] .bg-black\/95 {
+            background-color: rgba(253, 252, 251, 0.95);
+        }
+
+        [data-theme="light"] .bg-black\/90 {
+            background-color: rgba(253, 252, 251, 0.9);
+        }
+
+        [data-theme="light"] .bg-black\/80 {
+            background-color: rgba(253, 252, 251, 0.8);
+        }
+
+        [data-theme="light"] .bg-black\/40 {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        [data-theme="light"] .bg-black\/20 {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="light"] .from-black\/90 {
+            --tw-gradient-from: rgba(253, 252, 251, 0.95) var(--tw-gradient-from-position);
+        }
+
+        [data-theme="light"] .via-black\/40 {
+            --tw-gradient-to: rgba(253, 252, 251, 0.4) var(--tw-gradient-to-position);
+        }
+
+        [data-theme="light"] .text-white {
+            color: #111111;
+        }
+
+        [data-theme="light"] .nav-link-mobile {
+            color: #111111;
+        }
+
+        [data-theme="light"] .vertical-text {
+            color: var(--text-muted);
+        }
+
+        [data-theme="light"] .footer-link {
+            color: var(--text-muted);
+        }
+
+        [data-theme="light"] .footer-link:hover {
+            color: var(--gold);
+        }
+
+        [data-theme="light"] .btn-secondary {
+            color: var(--text-main);
+        }
+
+        [data-theme="light"] .placeholder-white\/40::placeholder {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="light"] .form-input::placeholder {
+            color: #777777;
+        }
+
+        [data-theme="light"] input::placeholder,
+        [data-theme="light"] textarea::placeholder {
+            color: #777777;
+        }
+
+        /* PREMIUM MOTION UTILITIES */
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .reveal {
+            animation: reveal 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+        }
+
+        .hover-lift {
+            transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1), box-shadow 0.6s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.2s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 1.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .zoom-slow {
+            animation: zoomSlow 20s linear infinite alternate;
+        }
+
+        @keyframes zoomSlow {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        .vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        @keyframes scrollIndicator {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(200%);
+            }
+        }
+
+        .animate-scroll-indicator {
+            animation: scrollIndicator 2s cubic-bezier(0.2, 1, 0.3, 1) infinite;
         }
     </style>
 </head>
@@ -986,209 +1363,295 @@
     }
     </script>
 
-    <div id="preloader"><span class="loader"></span></div>
+    <!-- <div id="preloader"><span class="loader"></span></div> -->
 
-    <header class="sticky top-0 z-50 transition-all duration-300" id="header">
-        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <a href="#home" class="flex items-center gap-3 page-link">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                        stroke="var(--gold)" stroke-width="1.5" />
-                    <path d="M9 15.5L12 8.5L15 15.5" stroke="var(--gold)" stroke-width="1.5" />
-                    <path d="M10 13.5H14" stroke="var(--gold)" stroke-width="1.5" />
-                </svg>
-                <div>
-                    <div class="text-xl font-bold font-serif tracking-wider">Amar Jewellers</div>
-                    <div style="font-size:.8rem;color:var(--muted)">Siwan, Bihar</div>
+    <header class="sticky top-0 z-50 transition-all duration-500" id="header">
+        <div class="max-w-screen-xl mx-auto px-6 sm:px-8 lg:px-12 py-6 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-4 page-link">
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-2 bg-gold/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    </div>
+                    <svg width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+                        <!-- Outer Circle -->
+                        <circle cx="50" cy="50" r="46" stroke="#C6A75E" stroke-width="1.6" fill="none" />
+
+                        <!-- Inner Circle -->
+                        <circle cx="50" cy="50" r="38" stroke="#C6A75E" stroke-width="0.6" fill="none" opacity="0.6" />
+
+                        <!-- AJ Monogram -->
+                        <text x="50" y="58" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="36"
+                            fill="#C6A75E" letter-spacing="2">
+                            AJ
+                        </text>
+
+                    </svg>
+
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-2xl font-bold tracking-[0.15em] uppercase font-serif leading-none">Amar</span>
+                    <span class="text-[0.65rem] tracking-[0.4em] uppercase text-gold font-medium mt-1">Jewellers</span>
                 </div>
             </a>
-            <nav class="hidden md:flex gap-10 items-center">
-                <a href="#home" class="nav-link page-link active">Home</a>
-                <a href="#collections" class="nav-link page-link">Collections</a>
-                <a href="#gallery" class="nav-link page-link">Gallery</a>
-                <a href="#about" class="nav-link page-link">About Us</a>
-                <a href="#contact" class="nav-link page-link">Contact</a>
-                <button id="theme-toggle"
-                    class="p-2 rounded-full border border-white/10 hover:border-gold/50 transition-colors group">
-                    <i data-lucide="sun" class="w-5 h-5 text-gold hidden dark-icon"></i>
-                    <i data-lucide="moon" class="w-5 h-5 text-gray-300 group-hover:text-gold light-icon"></i>
-                </button>
+
+            <nav class="hidden md:flex gap-12 items-center">
+                <a href="#home"
+                    class="nav-link page-link active uppercase text-[0.75rem] tracking-[0.2em] font-medium transition-all">Home</a>
+                <a href="#collections"
+                    class="nav-link page-link uppercase text-[0.75rem] tracking-[0.2em] font-medium transition-all">Collections</a>
+                <a href="#gallery"
+                    class="nav-link page-link uppercase text-[0.75rem] tracking-[0.2em] font-medium transition-all">Gallery</a>
+                <a href="#about"
+                    class="nav-link page-link uppercase text-[0.75rem] tracking-[0.2em] font-medium transition-all">Our
+                    Story</a>
+                <a href="#contact"
+                    class="nav-link page-link uppercase text-[0.75rem] tracking-[0.2em] font-medium transition-all">Contact</a>
             </nav>
-            <div class="flex items-center gap-3">
-                <a id="whats-app-btn-desktop" class="btn-gold hidden md:block" href="#" target="_blank">WhatsApp</a>
-                <button id="mobile-toggle" class="md:hidden text-white p-2"><i data-lucide="menu"></i></button>
+
+            <div class="flex items-center gap-6">
+                <button id="theme-toggle" class="p-2 transition-transform hover:scale-110">
+                    <i data-lucide="sun" class="w-4 h-4 text-gold hidden dark-icon"></i>
+                    <i data-lucide="moon" class="w-4 h-4 text-white light-icon"></i>
+                </button>
+                <a id="whats-app-btn-desktop" class="btn-gold hidden md:block" href="#" target="_blank">Inquiry</a>
+                <button id="mobile-toggle" class="md:hidden text-white"><i data-lucide="align-right"
+                        class="w-6 h-6"></i></button>
             </div>
         </div>
-        <div id="mobile-menu"
-            class="hidden md:hidden absolute top-full left-0 w-full bg-[#111111] border-t border-b border-[var(--gold-faded)]">
-            <nav class="flex flex-col items-center gap-4 py-6">
-                <a href="#home" class="page-link nav-link-mobile text-lg py-2">Home</a>
-                <a href="#collections" class="page-link nav-link-mobile text-lg py-2">Collections</a>
-                <a href="#gallery" class="page-link nav-link-mobile text-lg py-2">Gallery</a>
-                <a href="#about" class="page-link nav-link-mobile text-lg py-2">About Us</a>
-                <a href="#contact" class="page-link nav-link-mobile text-lg py-2">Contact</a>
-                <a id="whats-app-btn-mobile" class="btn-gold mt-4" href="#" target="_blank">WhatsApp Inquiry</a>
-                <button id="theme-toggle-mobile" class="flex items-center gap-3 text-lg py-2 mt-4 text-gray-400">
-                    <i data-lucide="sun" class="w-5 h-5 hidden dark-icon"></i>
-                    <i data-lucide="moon" class="w-5 h-5 light-icon"></i>
-                    <span>Toggle Theme</span>
+
+        <!-- Mobile Menu Overlay -->
+        <!-- Redesigned Luxury Mobile Menu -->
+        <div id="mobile-menu" class="fixed inset-0 z-[100] p-8 flex flex-col justify-between overflow-y-auto">
+            <!-- Header Part -->
+            <div class="flex justify-between items-center mb-12">
+                <div class="flex flex-col gap-1">
+                    <span
+                        class="text-2xl font-bold tracking-[0.2em] font-serif uppercase text-white [data-theme='light']:text-black">Amar</span>
+                    <span class="text-[0.6rem] tracking-[0.4em] uppercase text-gold font-medium">Jewellers</span>
+                </div>
+                <button id="close-mobile-menu"
+                    class="p-4 -mr-4 text-white [data-theme='light']:text-black hover:rotate-90 transition-transform duration-500">
+                    <i data-lucide="x" class="w-8 h-8"></i>
                 </button>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="flex flex-col gap-4">
+                <a href="#home"
+                    class="page-link nav-link-mobile font-serif italic text-white [data-theme='light']:text-black hover:text-gold transition-colors">Home</a>
+                <a href="#collections"
+                    class="page-link nav-link-mobile font-serif italic text-white [data-theme='light']:text-black hover:text-gold transition-colors">Collections</a>
+                <a href="#gallery"
+                    class="page-link nav-link-mobile font-serif italic text-white [data-theme='light']:text-black hover:text-gold transition-colors">Gallery</a>
+                <a href="#about"
+                    class="page-link nav-link-mobile font-serif italic text-white [data-theme='light']:text-black hover:text-gold transition-colors">Our
+                    Story</a>
+                <a href="#contact"
+                    class="page-link nav-link-mobile font-serif italic text-white [data-theme='light']:text-black hover:text-gold transition-colors">Contact</a>
             </nav>
+
+            <!-- Menu Footer -->
+            <div
+                class="mt-12 pt-12 border-t border-white/10 [data-theme='light']:border-black/10 flex flex-col gap-10 mobile-footer-item">
+                <div class="flex flex-col gap-2">
+                    <h4 class="text-[0.65rem] uppercase tracking-[0.3em] text-gold font-bold">The Boutique</h4>
+                    <p class="text-white/60 [data-theme='light']:text-black/60 font-light italic">Siwan, Bihar, India
+                    </p>
+                    <p class="text-white/60 [data-theme='light']:text-black/60 font-light">+91 70506 28922</p>
+                </div>
+
+                <div class="flex justify-between items-end">
+                    <div class="flex gap-6">
+                        <a href="#"
+                            class="text-white/40 [data-theme='light']:text-black/40 hover:text-gold transition-colors"><i
+                                data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#"
+                            class="text-white/40 [data-theme='light']:text-black/40 hover:text-gold transition-colors"><i
+                                data-lucide="facebook" class="w-5 h-5"></i></a>
+                    </div>
+
+                    <!-- Integrated Toggle -->
+                    <button id="menu-theme-toggle"
+                        class="flex items-center gap-4 py-3 px-6 bg-white/5 [data-theme='light']:bg-black/5 rounded-full border border-white/10 [data-theme='light']:border-black/10">
+                        <span
+                            class="text-[0.65rem] uppercase tracking-[0.2em] text-white/60 [data-theme='light']:text-black/60">Switch
+                            Appearance</span>
+                        <div class="relative w-10 h-5 bg-white/10 [data-theme='light']:bg-black/10 rounded-full p-1">
+                            <div
+                                class="theme-dot w-3 h-3 bg-gold rounded-full transition-all duration-500 absolute left-1 [data-theme='light']:left-6">
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main id="app" class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main id="app" class="max-w-screen-xl mx-auto">
         <div id="page-container">
             <!-- HOME PAGE -->
-            <section id="page-home" class="page active space-y-24">
-                <div
-                    class="relative grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[90vh] text-center md:text-left">
-                    <video id="hero-video-bg" autoplay muted loop playsinline>
-                        <source
-                            src="https://assets.mixkit.co/videos/preview/mixkit-close-up-of-a-faceted-diamond-on-a-black-background-3900-large.mp4"
-                            type="video/mp4">
+            <section id="page-home" class="page active">
+                <!-- Hero Section - High End Editorial Look -->
+                <div class="relative h-[95vh] w-full overflow-hidden flex items-center justify-start">
+                    <video id="hero-video-bg" class="absolute inset-0 w-full h-full object-cover zoom-slow" autoplay
+                        muted loop playsinline>
+                        <source src="https://assets.mixkit.co/videos/32284/32284-720.mp4" type="video/mp4">
                     </video>
-                    <!-- Overlay gradient for better text readability -->
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-0"></div>
 
-                    <div class="fade-in z-10 pl-4 md:pl-0">
-                        <h1 class="text-6xl md:text-8xl font-bold leading-tight">
-                            <span class="block text-white">Where Legacy</span>
-                            <span class="block text-gradient-gold">Meets Luxury</span>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent z-10"></div>
+
+                    <div class="relative z-20 px-8 sm:px-12 lg:px-20 max-w-4xl fade-in-up">
+                        <span
+                            class="text-gold uppercase tracking-[0.5em] text-[0.7rem] font-semibold mb-6 block">Established
+                            Heritage Since 1995</span>
+                        <h1 class="text-7xl md:text-9xl font-serif text-white leading-[0.9] tracking-tight">
+                            Timeless<br>
+                            <span class="italic text-gradient-gold">Artistry</span>
                         </h1>
-                        <p class="text-gray-300 mt-8 max-w-lg text-lg leading-relaxed mx-auto md:mx-0 font-light">
-                            Experience the pinnacle of craftsmanship with our handcrafted jewellery, a timeless
-                            tradition from the heart of Siwan.
+                        <p class="text-white/60 mt-10 max-w-lg text-lg leading-relaxed font-light tracking-wide">
+                            Curated handcrafted masterpieces that celebrate life's most precious moments. Bihar's
+                            premier destination for certified luxury jewellery.
                         </p>
-                        <div class="mt-10 flex gap-6 items-center justify-center md:justify-start">
-                            <a href="#collections" class="btn-gold page-link">Explore Collections</a>
+
+                        <div class="mt-14 flex flex-col sm:flex-row gap-8 items-start sm:items-center">
+                            <a href="#collections" class="btn-gold page-link">The Collection</a>
                             <button
-                                class="get-directions-btn group flex items-center gap-3 text-white hover:text-gold transition-colors duration-300">
-                                <span class="border-b border-white group-hover:border-gold pb-1 transition-colors">Visit
-                                    Our Store</span>
-                                <i data-lucide="arrow-right"
-                                    class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                                class="get-directions-btn group flex items-center gap-4 text-white/80 hover:text-gold transition-all duration-500 uppercase text-xs tracking-[0.2em] font-medium">
+                                <span>Visit Experience Center</span>
+                                <div
+                                    class="w-8 h-[1px] bg-white/30 group-hover:w-12 group-hover:bg-gold transition-all duration-500">
+                                </div>
                             </button>
                         </div>
                     </div>
-                    <div class="hidden md:block fade-in z-10 h-[600px]">
-                        <div
-                            class="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl shadow-gold/10 border border-white/5 group">
-                            <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=800&q=80"
-                                alt="Elegant gold jewellery"
-                                class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        </div>
-                    </div>
 
-                    <!-- Scroll Indicator -->
-                    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10 text-white/50">
-                        <i data-lucide="chevron-down" class="w-8 h-8"></i>
+                    <!-- Vertical Scroll Indicator -->
+                    <div class="absolute bottom-12 right-12 z-20 hidden lg:flex flex-col items-center gap-6">
+                        <span class="uppercase tracking-[0.3em] text-[0.6rem] text-white/40 vertical-text">Scroll to
+                            explore</span>
+                        <div class="w-px h-20 bg-white/20 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1/2 bg-gold animate-scroll-indicator"></div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="fade-in card">
-                    <div class="flex flex-col md:flex-row gap-8 items-center justify-between text-center md:text-left">
+                <!-- Trust Indicators Bar -->
+                <div class="fade-in px-8 sm:px-12 lg:px-20 -mt-16 relative z-30">
+                    <div
+                        class="bg-card-bg/80 backdrop-blur-2xl border border-glass-border p-10 flex flex-col md:flex-row gap-12 items-center justify-between shadow-2xl">
+                        <div class="max-w-xs">
+                            <h2 class="text-3xl font-serif">A Legacy of Trust</h2>
+                            <p class="text-sm text-text-muted mt-3 font-light tracking-wide">Decades of dedicated
+                                craftsmanship and verified excellence in every piece.</p>
+                        </div>
+                        <div class="flex items-center gap-10 lg:gap-16">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold gold mb-2" id="avg-rating">5.0</div>
+                                <div class="flex justify-center gap-1 text-gold/60">
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                    <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                                </div>
+                                <div class="text-[0.6rem] uppercase tracking-widest text-text-muted mt-3">Google Rating
+                                </div>
+                            </div>
+                            <div class="h-12 w-px bg-white/10 hidden md:block"></div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold mb-2" id="reviews-count">150+</div>
+                                <div class="text-[0.6rem] uppercase tracking-widest text-text-muted mt-3">Client Reviews
+                                </div>
+                            </div>
+                            <div class="h-12 w-px bg-white/10 hidden lg:block"></div>
+                            <div class="text-center hidden lg:block">
+                                <div class="text-4xl font-bold mb-2">100%</div>
+                                <div class="text-[0.6rem] uppercase tracking-widest text-text-muted mt-3">Hallmarked
+                                    Gold</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Curated Collections Section -->
+                <div class="fade-in py-32 px-8 sm:px-12 lg:px-20">
+                    <div class="flex flex-col md:flex-row justify-between items-end mb-20">
                         <div>
-                            <h2 class="text-4xl">A Legacy of Trust</h2>
-                            <p class="text-base text-gray-400 mt-2">Decades of dedicated craftsmanship and verified
-                                patron reviews.</p>
+                            <span
+                                class="text-gold uppercase tracking-[0.4em] text-[0.65rem] font-bold mb-4 block">Categories</span>
+                            <h2 class="text-5xl md:text-6xl font-serif">Curated Collections</h2>
                         </div>
-                        <div class="flex items-center gap-6">
-                            <div class="text-center">
-                                <div class="text-5xl font-bold gold" id="avg-rating">5.0</div>
-                                <div class="flex justify-center mt-1 text-yellow-400"><i data-lucide="star"
-                                        class="w-5 h-5 fill-current"></i><i data-lucide="star"
-                                        class="w-5 h-5 fill-current"></i><i data-lucide="star"
-                                        class="w-5 h-5 fill-current"></i><i data-lucide="star"
-                                        class="w-5 h-5 fill-current"></i><i data-lucide="star"
-                                        class="w-5 h-5 fill-current"></i></div>
-                            </div>
-                            <div class="h-16 w-px bg-[var(--gold-faded)] hidden md:block"></div>
-                            <div class="text-center">
-                                <div class="text-5xl font-bold" id="reviews-count">-</div>
-                                <div class="text-sm text-gray-400 mt-1">Total Reviews</div>
-                            </div>
-                        </div>
+                        <a href="#collections" class="btn-secondary group">View All Collections</a>
                     </div>
-                </div>
 
-                <!-- Featured Categories -->
-                <div class="fade-in">
-                    <div class="text-center mb-16">
-                        <h2 class="text-5xl md:text-6xl font-serif text-gradient-gold mb-4">Our Collections</h2>
-                        <div class="w-24 h-1 bg-gold mx-auto rounded-full"></div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-10">
                         <a href="#collections" data-filter="bridal"
-                            class="page-link category-card relative rounded-2xl overflow-hidden group h-[400px]">
-                            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb052571?auto=format&fit=crop&w=800&q=80"
-                                alt="Bridal Jewellery"
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8">
-                                <h3
-                                    class="text-3xl text-white font-serif transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    Bridal Sets</h3>
-                                <p
-                                    class="text-gold/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75">
-                                    Timeless elegance for your special day</p>
+                            class="md:col-span-8 group relative overflow-hidden h-[500px] border border-glass-border page-link">
+                            <img src="https://i.postimg.cc/pXdzdCJ8/Gemini-Generated-Image-m0e2djm0e2djm0e2.png"
+                                alt="Bridal"
+                                class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-1000 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                            </div>
+                            <div class="absolute bottom-10 left-10">
+                                <span class="text-gold text-xs uppercase tracking-[0.3em] mb-4 block">Signature
+                                    Edition</span>
+                                <h3 class="text-4xl text-white font-serif">The Bridal Gallery</h3>
                             </div>
                         </a>
-                        <a href="#collections" data-filter="rings"
-                            class="page-link category-card relative rounded-2xl overflow-hidden group h-[400px]">
-                            <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80"
-                                alt="Silver Jewellery"
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8">
-                                <h3
-                                    class="text-3xl text-white font-serif transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    Silver Jewellery</h3>
-                                <p
-                                    class="text-gold/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75">
-                                    Modern chic meet traditional purity</p>
-                            </div>
-                        </a>
-                        <a href="#collections" data-filter="necklaces"
-                            class="page-link category-card relative rounded-2xl overflow-hidden group h-[400px]">
-                            <img src="https://images.unsplash.com/photo-1599643478518-17488fbbcd75?auto=format&fit=crop&w=800&q=80"
-                                alt="Gold Necklaces"
-                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8">
-                                <h3
-                                    class="text-3xl text-white font-serif transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                    Gold Necklaces</h3>
-                                <p
-                                    class="text-gold/80 text-sm mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-4 group-hover:translate-y-0 delay-75">
-                                    Statement pieces that define luxury</p>
-                            </div>
-                        </a>
+
+                        <div class="md:col-span-4 flex flex-col gap-10">
+                            <a href="#collections" data-filter="necklaces"
+                                class="group relative overflow-hidden flex-1 border border-glass-border page-link">
+                                <img src="https://images.unsplash.com/photo-1599643478518-17488fbbcd75?auto=format&fit=crop&w=800&q=80"
+                                    alt="Necklaces"
+                                    class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-1000 group-hover:scale-105">
+                                <div
+                                    class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500">
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <h3
+                                        class="text-2xl text-white font-serif tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                        Necklaces</h3>
+                                </div>
+                            </a>
+                            <a href="#collections" data-filter="rings"
+                                class="group relative overflow-hidden flex-1 border border-glass-border page-link">
+                                <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80"
+                                    alt="Rings"
+                                    class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-1000 group-hover:scale-105">
+                                <div
+                                    class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-500">
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <h3
+                                        class="text-2xl text-white font-serif tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                        Diamonds</h3>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Craftsmanship Section -->
-                <div
-                    class="fade-in grid md:grid-cols-2 gap-16 card items-center !p-0 !bg-transparent border-none overflow-visible">
-                    <div class="relative rounded-2xl overflow-hidden shadow-2xl shadow-gold/10 group h-[500px]">
-                        <img src="https://images.unsplash.com/photo-1621815152885-f350c38260a9?auto=format&fit=crop&w=800&q=80"
-                            alt="Jeweller meticulously working on a gold ring"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
+                <!-- Craftsmanship Experience -->
+                <div class="fade-in grid md:grid-cols-2 gap-0 overflow-hidden border-y border-glass-border">
+                    <div class="h-[600px] relative">
+                        <img src="https://i.postimg.cc/2jt84xfd/Gemini-Generated-Image-81pwyj81pwyj81pw.png"
+                            alt="Craftsmanship" class="w-full h-full object-cover grayscale-[0.3]">
+                        <div class="absolute inset-0 bg-gold/5 mix-blend-overlay"></div>
                     </div>
-                    <div>
-                        <h2 class="text-5xl md:text-6xl text-gradient-gold mb-6 font-serif">The Art of Craftsmanship
-                        </h2>
-                        <div class="w-20 h-1 bg-gold mb-8"></div>
-                        <p class="text-gray-300 leading-relaxed text-lg mb-8 font-light">Each piece at Amar Jewellers is
-                            a testament to the art
-                            of fine jewellery making. Our master craftsmen pour their heart and soul into every detail,
-                            from the initial sketch to the final polish. We honour traditional techniques passed down
-                            through generations while embracing innovation to create heirlooms that last a lifetime.</p>
-                        <div class="mt-6">
-                            <a href="#about" class="btn-gold page-link">Discover Our Story</a>
+                    <div class="flex flex-col justify-center p-12 md:p-24 bg-card-bg">
+                        <span class="text-gold uppercase tracking-[0.4em] text-[0.65rem] font-bold mb-6 block">Our
+                            Craft</span>
+                        <h2 class="text-5xl md:text-6xl font-serif mb-10 leading-tight">Mastery in Every Detail</h2>
+                        <p class="text-text-muted text-lg leading-relaxed font-light mb-12">
+                            Each piece at Amar Jewellers is a testament to the art of fine jewellery making. Our master
+                            craftsmen pour their heart and soul into every detail, from the initial sketch to the final
+                            polish. We honor traditional techniques passed down through generations while embracing
+                            modern precision.
+                        </p>
+                        <div>
+                            <a href="#about" class="btn-gold">The Artisans Journey</a>
                         </div>
                     </div>
                 </div>
@@ -1222,231 +1685,203 @@
             </section>
 
             <!-- ABOUT PAGE -->
-            <section id="page-about" class="page space-y-32">
-                <div class="fade-in grid md:grid-cols-2 gap-16 items-center">
-                    <div class="order-2 md:order-1">
-                        <h2 class="text-5xl md:text-6xl text-gradient-gold mb-6 font-serif">Our Legacy</h2>
-                        <div class="w-20 h-1 bg-gold mb-8"></div>
-                        <p class="text-gray-300 leading-relaxed text-lg font-light mb-6">For generations, Amar Jewellers
-                            has been synonymous
-                            with artistry and trust. We blend time-honored techniques with contemporary designs,
-                            ensuring every piece is not just an ornament, but a legacy.</p>
-                        <p class="text-gray-300 leading-relaxed text-lg font-light">Our commitment to purity and
-                            customer satisfaction remains at the heart of everything we create. When you choose us, you
-                            choose a relationship built on transparency and excellence.</p>
+            <section id="page-about" class="page">
+                <div class="py-24 px-8 sm:px-12 lg:px-20">
+                    <div class="grid lg:grid-cols-2 gap-24 items-center mb-40">
+                        <div class="order-2 lg:order-1">
+                            <span class="text-gold uppercase tracking-[0.4em] text-[0.65rem] font-bold mb-6 block">Our
+                                Legacy</span>
+                            <h2 class="text-5xl md:text-7xl font-serif mb-10 leading-tight">Preserving Artistry Since
+                                1995</h2>
+                            <p class="text-text-muted text-lg leading-relaxed font-light mb-8">
+                                Amar Jewellers was founded with a singular vision: to create jewellery that is as
+                                enduring as the stories it celebrates. For over nearly three decades, we have been
+                                Siwan's most trusted name in fine jewellery.
+                            </p>
+                            <p class="text-text-muted text-lg leading-relaxed font-light">
+                                Our journey is one of passion, precision, and an unwavering commitment to purity. Every
+                                piece that leaves our atelier is a symphony of traditional craftsmanship and
+                                contemporary elegance.
+                            </p>
+                        </div>
+                        <div class="order-1 lg:order-2 relative h-[700px] border border-glass-border overflow-hidden">
+                            <img src="https://i.postimg.cc/zBsdwMDF/Gemini-Generated-Image-6x9hfm6x9hfm6x9h.png"
+                                alt="Legacy" class="w-full h-full object-cover grayscale-[0.3]">
+                            <div class="absolute inset-0 bg-black/20"></div>
+                        </div>
                     </div>
-                    <div
-                        class="relative rounded-2xl overflow-hidden shadow-2xl shadow-gold/10 group h-[500px] order-1 md:order-2">
-                        <img src="https://images.unsplash.com/photo-1589128777090-f7094a47c57c?auto=format&fit=crop&w=800&q=80"
-                            alt="Jeweller crafting a piece"
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute inset-0 bg-gold/10 mix-blend-overlay"></div>
-                    </div>
-                </div>
 
-                <div class="fade-in text-center">
-                    <h2 class="text-4xl md:text-5xl text-gradient-gold mb-16 font-serif">Our Promise</h2>
-                    <div class="grid md:grid-cols-3 gap-8">
-                        <div
-                            class="p-8 rounded-2xl bg-white/5 border border-white/5 hover:border-gold/30 transition-all duration-300 group hover:-translate-y-2">
-                            <div
-                                class="w-16 h-16 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors">
-                                <i data-lucide="gem" class="w-8 h-8 text-gold"></i>
-                            </div>
-                            <h3 class="text-2xl font-serif text-white mb-3">Purity Guaranteed</h3>
-                            <p class="text-gray-400 font-light">Only certified, hallmarked gold and ethically sourced
-                                diamonds.</p>
+                    <div class="grid md:grid-cols-3 gap-12 border-t border-glass-border pt-24">
+                        <div class="space-y-6">
+                            <span class="text-gold font-serif text-3xl">01</span>
+                            <h3 class="text-xl uppercase tracking-[0.2em] font-bold">Uncompromising Purity</h3>
+                            <p class="text-text-muted font-light leading-relaxed">
+                                We only use BIS Hallmarked gold and IGI/GIA certified diamonds. Transparency isn't just
+                                a promise; it's our heritage.
+                            </p>
                         </div>
-                        <div
-                            class="p-8 rounded-2xl bg-white/5 border border-white/5 hover:border-gold/30 transition-all duration-300 group hover:-translate-y-2">
-                            <div
-                                class="w-16 h-16 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors">
-                                <i data-lucide="crown" class="w-8 h-8 text-gold"></i>
-                            </div>
-                            <h3 class="text-2xl font-serif text-white mb-3">Master Craftsmanship</h3>
-                            <p class="text-gray-400 font-light">Handcrafted by skilled artisans with decades of
-                                experience.</p>
+                        <div class="space-y-6">
+                            <span class="text-gold font-serif text-3xl">02</span>
+                            <h3 class="text-xl uppercase tracking-[0.2em] font-bold">Master Artistry</h3>
+                            <p class="text-text-muted font-light leading-relaxed">
+                                Our artisans spend hundreds of hours on a single piece, ensuring that every curve and
+                                setting is a work of perfection.
+                            </p>
                         </div>
-                        <div
-                            class="p-8 rounded-2xl bg-white/5 border border-white/5 hover:border-gold/30 transition-all duration-300 group hover:-translate-y-2">
-                            <div
-                                class="w-16 h-16 mx-auto bg-gold/10 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/20 transition-colors">
-                                <i data-lucide="handshake" class="w-8 h-8 text-gold"></i>
-                            </div>
-                            <h3 class="text-2xl font-serif text-white mb-3">Lifetime Trust</h3>
-                            <p class="text-gray-400 font-light">We stand by our creations with lifetime maintenance
-                                support.</p>
+                        <div class="space-y-6">
+                            <span class="text-gold font-serif text-3xl">03</span>
+                            <h3 class="text-xl uppercase tracking-[0.2em] font-bold">Bespoke Experience</h3>
+                            <p class="text-text-muted font-light leading-relaxed">
+                                From private consultations to custom designs, we ensure your journey with us is as
+                                precious as the jewellery you choose.
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
             <!-- CONTACT PAGE -->
-            <section id="page-contact" class="page space-y-12">
-                <div class="text-center mb-8">
-                    <h2 class="text-5xl md:text-6xl font-serif text-gradient-gold mb-4">Visit & Connect</h2>
-                    <p class="text-gray-400">We'd love to hear from you</p>
-                </div>
-
-                <div id="map-container"
-                    class="relative w-full h-[400px] rounded-2xl overflow-hidden border border-gold/20 shadow-2xl">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.67288762118!2d84.357408!3d26.2190221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39931750a9821815%3A0x13c313f2a8987383!2sAmar%20Jewellers!5e0!3m2!1sen!2sin!4v1728723948624"
-                        width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                    <div
-                        class="absolute top-1/2 left-1/2 w-8 h-8 bg-gold rounded-full -translate-x-1/2 -translate-y-1/2 animate-ping opacity-75">
+            <section id="page-contact" class="page">
+                <div class="py-24 px-8 sm:px-12 lg:px-20">
+                    <div class="text-center mb-20">
+                        <span class="text-gold uppercase tracking-[0.4em] text-[0.65rem] font-bold mb-4 block">Visit
+                            Us</span>
+                        <h2 class="text-5xl md:text-6xl font-serif">Connnect with Heritage</h2>
                     </div>
-                    <div
-                        class="absolute top-1/2 left-1/2 w-4 h-4 bg-gold rounded-full -translate-x-1/2 -translate-y-1/2">
-                    </div>
-                </div>
 
-                <div class="text-center">
-                    <button class="get-directions-btn btn-gold">Get Directions</button>
-                </div>
-
-                <div class="fade-in grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card bg-white/5 border-white/5">
-                        <h3 class="text-3xl font-serif text-white mb-6">Contact Info</h3>
-                        <div class="space-y-6">
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+                    <div class="grid lg:grid-cols-2 gap-20 items-start">
+                        <div class="space-y-16">
+                            <div class="flex items-start gap-8">
+                                <div class="w-12 h-12 border border-gold flex items-center justify-center shrink-0">
                                     <i data-lucide="map-pin" class="text-gold w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-gold font-semibold mb-1">Address</h4>
-                                    <p class="text-gray-300">Gali No.1, Sonar Toli, Siwan, Bihar 841226</p>
+                                    <h4 class="text-xs uppercase tracking-[0.2em] text-white/40 mb-3 font-semibold">The
+                                        Boutique</h4>
+                                    <p class="text-xl font-serif text-white leading-relaxed">Gali No.1, Sonar Toli,
+                                        Siwan,<br>Bihar 841226, India</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
-                                    <i data-lucide="phone" class="text-gold w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-gold font-semibold mb-1">Phone</h4>
-                                    <p class="text-gray-300">+91 70506 28922</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-4">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center shrink-0">
+
+                            <div class="flex items-start gap-8">
+                                <div class="w-12 h-12 border border-gold flex items-center justify-center shrink-0">
                                     <i data-lucide="clock" class="text-gold w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <h4 class="text-gold font-semibold mb-1">Hours</h4>
-                                    <p class="text-gray-300">Mon - Sat: 10:00 AM - 8:00 PM</p>
+                                    <h4 class="text-xs uppercase tracking-[0.2em] text-white/40 mb-3 font-semibold">
+                                        Boutique Hours</h4>
+                                    <p class="text-xl font-serif text-white">Mon – Sat: 10:00 — 20:00</p>
+                                    <p class="text-sm text-text-muted mt-2 font-light">Sundays by appointment only</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-8">
+                                <div class="w-12 h-12 border border-gold flex items-center justify-center shrink-0">
+                                    <i data-lucide="phone" class="text-gold w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs uppercase tracking-[0.2em] text-white/40 mb-3 font-semibold">
+                                        Direct Inquiry</h4>
+                                    <p class="text-xl font-serif text-white">+91 70506 28922</p>
+                                    <a href="#" class="inline-block mt-4 btn-secondary group">Chat on WhatsApp</a>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Review Form -->
+                        <div class="mt-24 pt-24 border-t border-glass-border">
+                            <span class="text-gold uppercase tracking-[0.4em] text-[0.65rem] font-bold mb-6 block">Share
+                                Your Experience</span>
+                            <h3 class="text-3xl font-serif mb-8 text-white">Leave a Patron Review</h3>
+                            <form id="review-form" class="space-y-6">
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <input type="text" name="name" placeholder="Full Name" required
+                                        class="bg-card-bg border border-glass-border p-4 text-white focus:border-gold outline-none w-full">
+                                    <select name="rating"
+                                        class="bg-card-bg border border-glass-border p-4 text-white focus:border-gold outline-none w-full">
+                                        <option value="5">5 Stars — Exceptional</option>
+                                        <option value="4">4 Stars — Very Good</option>
+                                        <option value="3">3 Stars — Satisfactory</option>
+                                    </select>
+                                </div>
+                                <textarea name="text" placeholder="Your experience..." required rows="4"
+                                    class="bg-card-bg border border-glass-border p-4 text-white focus:border-gold outline-none w-full"></textarea>
+                                <button type="submit" class="btn-gold">Submit Review</button>
+                                <p id="review-result" class="text-xs tracking-widest uppercase text-gold mt-4"></p>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card bg-white/5 border-white/5">
-                        <h3 class="text-3xl font-serif text-white mb-6">Leave a Review</h3>
-                        <form id="review-form" class="space-y-4">
-                            <input name="name" placeholder="Your Name" required
-                                class="form-input bg-black/40 border-white/10 focus:border-gold" />
-                            <select name="rating" class="form-input bg-black/40 border-white/10 focus:border-gold">
-                                <option value="5" class="bg-black">★★★★★ - Excellent</option>
-                                <option value="4" class="bg-black">★★★★☆ - Good</option>
-                                <option value="3" class="bg-black">★★★☆☆ - Average</option>
-                                <option value="2" class="bg-black">★★☆☆☆ - Poor</option>
-                                <option value="1" class="bg-black">★☆☆☆☆ - Terrible</option>
-                            </select>
-                            <textarea name="text" rows="3" placeholder="Share your experience..." required
-                                class="form-input bg-black/40 border-white/10 focus:border-gold"></textarea>
-                            <div class="flex items-center gap-4 pt-2">
-                                <button type="submit" class="btn-gold w-full">Submit Review</button>
-                            </div>
-                            <div id="review-result" class="text-center text-sm text-gold mt-2"></div>
-                        </form>
+
+                    <div
+                        class="relative h-[600px] border border-glass-border grayscale-[0.8] hover:grayscale-0 transition-all duration-1000">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3574.67288762118!2d84.357408!3d26.2190221!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39931750a9821815%3A0x13c313f2a8987383!2sAmar%20Jewellers!5e0!3m2!1sen!2sin!4v1728723948624"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                        </iframe>
+                        <div class="absolute inset-0 pointer-events-none border-[20px] border-card-bg/20"></div>
                     </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <!-- Comment Modal -->
-    <div id="comment-modal" class="comment-modal">
-        <div class="comment-modal-header">
-            <h3 class="text-xl font-semibold">Comments</h3>
-            <button id="close-comment-modal" class="text-gray-400 hover:text-white">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-        </div>
-        <div class="comment-modal-body" id="comments-list">
-            <!-- Comments will be inserted here -->
-        </div>
-        <div class="comment-input-area">
-            <input type="text" id="comment-input" class="comment-input" placeholder="Add a comment..." />
-            <button id="send-comment" class="send-comment-btn">Post</button>
-        </div>
-    </div>
-
-    <!-- Modal Overlay for comments -->
-    <div id="comment-overlay" class="modal-overlay" onclick="hideCommentModal()"></div>
-
-    <footer class="mt-32 pt-20 pb-10 bg-black border-t border-white/10">
-        <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <!-- Brand -->
+    <footer class="mt-40 border-t border-glass-border">
+        <div class="max-w-screen-xl mx-auto px-12 py-24">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-20">
                 <div class="col-span-1 md:col-span-2">
-                    <div class="text-gold font-serif font-bold text-2xl flex items-center gap-2 mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2L2 9l10 13 10-13-10-7zm0 3.3l6.7 4.7-2.7 8.6H8L5.3 10l6.7-4.7z" />
-                        </svg>
-                        Amar Jewellers
+                    <div class="flex flex-col gap-2 mb-8">
+                        <span class="text-3xl font-bold tracking-[0.2em] font-serif uppercase">Amar</span>
+                        <span class="text-[0.7rem] tracking-[0.5em] uppercase text-gold font-medium">Jewellers</span>
                     </div>
-                    <p class="text-gray-400 leading-relaxed mb-6 max-w-sm">
-                        Crafting timeless elegance since 1990. We take pride in our heritage of purity, trust, and
-                        exquisite design.
+                    <p class="text-text-muted leading-relaxed font-light text-lg max-w-sm mb-12">
+                        Bihar's premier destination for handcrafted luxury. We preserve heritage through master artistry
+                        and uncompromising purity.
                     </p>
-                    <div class="flex gap-4">
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gold hover:text-black transition-all">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </a>
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gold hover:text-black transition-all">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
-                        </a>
+                    <div class="flex gap-8">
+                        <a href="#" class="text-white hover:text-gold transition-colors"><i data-lucide="instagram"
+                                class="w-5 h-5"></i></a>
+                        <a href="#" class="text-white hover:text-gold transition-colors"><i data-lucide="facebook"
+                                class="w-5 h-5"></i></a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
                 <div>
-                    <h4 class="text-white font-serif text-lg mb-6">Quick Links</h4>
-                    <ul class="space-y-4">
-                        <li><a href="#home" class="text-gray-400 hover:text-gold transition-colors">Home</a></li>
+                    <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-white mb-10">Exploration</h4>
+                    <ul class="space-y-6">
+                        <li><a href="#home"
+                                class="text-sm text-text-muted hover:text-white tracking-widest uppercase transition-colors page-link footer-link">Home</a>
+                        </li>
                         <li><a href="#collections"
-                                class="text-gray-400 hover:text-gold transition-colors">Collections</a></li>
-                        <li><a href="#about" class="text-gray-400 hover:text-gold transition-colors">Our Story</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-gold transition-colors">Contact</a></li>
+                                class="text-sm text-text-muted hover:text-white tracking-widest uppercase transition-colors page-link footer-link">Collections</a>
+                        </li>
+                        <li><a href="#about"
+                                class="text-sm text-text-muted hover:text-white tracking-widest uppercase transition-colors page-link footer-link">Our
+                                Story</a></li>
+                        <li><a href="#contact"
+                                class="text-sm text-text-muted hover:text-white tracking-widest uppercase transition-colors page-link footer-link">Contact</a>
+                        </li>
                     </ul>
                 </div>
 
-                <!-- Newsletter -->
                 <div>
-                    <h4 class="text-white font-serif text-lg mb-6">Stay Updated</h4>
-                    <p class="text-gray-400 text-sm mb-4">Subscribe for latest collection updates and exclusive offers.
+                    <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-white mb-10">The Atelier</h4>
+                    <p class="text-sm text-text-muted font-light leading-relaxed mb-8">
+                        Join our inner circle for exclusive previews and private events.
                     </p>
-                    <form class="flex flex-col gap-3">
-                        <input type="email" placeholder="Your Email"
-                            class="bg-white/5 border border-white/10 rounded px-4 py-3 text-white focus:border-gold focus:outline-none transition-colors">
-                        <button type="submit" class="btn-gold !py-2 !text-sm">Subscribe</button>
+                    <form class="flex flex-col gap-4">
+                        <input type="email" placeholder="Email Address"
+                            class="bg-transparent border-b border-white/20 pb-4 text-white focus:border-gold outline-none transition-colors">
+                        <button type="submit" class="self-start btn-secondary">Subscribe</button>
                     </form>
                 </div>
             </div>
 
             <div
-                class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
-                <div>
-                    © <span id="year"></span> Amar Jewellers. All Rights Reserved.
-                </div>
-                <div>
-                    Managed by <span class="text-gold">Yash Verma</span>
+                class="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[0.6rem] uppercase tracking-[0.3em] text-white/30">
+                <div>© <span id="year"></span> Amar Jewellers Boutique. All Rights Reserved.</div>
+                <div class="flex gap-8 italic tracking-normal text-[0.7rem] lowercase">
+                    <span>crafted by <span class="text-gold capitalize not-italic tracking-[0.2em]">Yash
+                            Verma</span></span>
                 </div>
             </div>
         </div>
@@ -1607,50 +2042,47 @@
             avgRatingEl: document.getElementById('avg-rating'),
             reviewsCountEl: document.getElementById('reviews-count'),
             topReviewsGrid: document.getElementById('top-reviews-grid'),
-            header: document.getElementById('header')
+            header: document.getElementById('header'),
+            closeMobileMenu: document.getElementById('close-mobile-menu'),
+            menuThemeToggle: document.getElementById('menu-theme-toggle')
         };
 
         function createCard(item, index) {
             const div = document.createElement('div');
-            div.className = 'card fade-in group';
+            div.className = 'card fade-in group border border-glass-border overflow-hidden bg-card-bg';
             div.style.transitionDelay = `${index * 100}ms`;
             div.innerHTML = `
-        <div class="relative overflow-hidden rounded-xl">
-            <img loading="lazy" src="${item.img}" alt="${item.name}" class="jewel-img w-full h-[300px] object-cover transition-transform duration-700 group-hover:scale-110" data-item-id="${item.id}"/>
-            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <button class="btn-gold !px-6 !py-3 view-details-btn transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300" data-item-id="${item.id}">Quick View</button>
-            </div>
-        </div>
-        <div class="pt-5 text-center">
-            <h4 class="text-2xl font-serif tracking-wide text-white group-hover:text-gold transition-colors duration-300">${item.name}</h4>
-            <div class="w-12 h-0.5 bg-gold/30 mx-auto my-3"></div>
-            <p class="text-sm text-gray-400 line-clamp-2 min-h-[40px]">${item.desc || 'Exquisite craftsmanship.'}</p>
-        </div>
-      `;
+                <div class="relative overflow-hidden aspect-[4/5]">
+                    <img loading="lazy" src="${item.img}" alt="${item.name}" class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-1000 group-hover:scale-105" data-item-id="${item.id}"/>
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                        <button class="btn-secondary !text-[0.6rem] !tracking-[0.3em] uppercase view-details-btn" data-item-id="${item.id}">View Details</button>
+                    </div>
+                </div>
+                <div class="p-8 text-center">
+                    <span class="text-[0.6rem] text-gold uppercase tracking-[0.3em] font-bold mb-3 block">${item.category || 'Fine Jewellery'}</span>
+                    <h4 class="text-xl font-serif text-white mb-4 group-hover:text-gold transition-colors">${item.name}</h4>
+                    <div class="w-8 h-px bg-white/10 mx-auto"></div>
+                </div>
+            `;
             return div;
         }
 
         function createReviewCard(review) {
             const stars = Array(5).fill(0).map((_, i) =>
-                `<i data-lucide="star" class="w-4 h-4 ${i < (review.rating || 5) ? 'fill-gold text-gold' : 'text-gray-600'}"></i>`
+                `<i data-lucide="star" class="w-2.5 h-2.5 ${i < (review.rating || 5) ? 'fill-gold text-gold' : 'text-white/10'}"></i>`
             ).join('');
 
             return `
-            <div class="card fade-in border border-white/5 bg-white/5 backdrop-blur-sm p-8 rounded-2xl relative">
-                <div class="absolute -top-4 -left-4 text-6xl text-gold/20 font-serif">"</div>
-                <div class="flex gap-1 mb-4">${stars}</div>
-                <p class="text-gray-200 text-lg leading-relaxed italic relative z-10">"${review.text}"</p>
-                <div class="mt-6 flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gold to-yellow-600 flex items-center justify-center text-black font-bold text-xl">
-                        ${review.name.charAt(0)}
-                    </div>
-                    <div>
-                        <p class="font-bold text-gold">${review.name}</p>
-                        <p class="text-xs text-gray-500">Verified Customer</p>
+                <div class="fade-in p-12 border border-glass-border bg-card-bg/50 backdrop-blur-xl relative group hover:border-gold/30 transition-all duration-700">
+                    <div class="flex gap-1.5 mb-8 justify-center">${stars}</div>
+                    <p class="text-white text-lg leading-relaxed font-serif italic mb-10">"${review.text}"</p>
+                    <div class="flex flex-col items-center">
+                        <div class="w-px h-10 bg-gold/30 mb-6"></div>
+                        <p class="text-[0.7rem] uppercase tracking-[0.4em] font-bold text-white mb-1">${review.name}</p>
+                        <p class="text-[0.6rem] uppercase tracking-[0.2em] text-text-muted">Certified Patron</p>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
         }
 
         function renderCollections(filter = 'all') {
@@ -2254,54 +2686,82 @@
         }
 
         function initMobileMenu() {
-            dom.mobileToggle.addEventListener('click', () => dom.mobileMenu.classList.toggle('hidden'));
-            dom.mobileMenu.querySelectorAll('.page-link').forEach(link => link.addEventListener('click', () => dom.mobileMenu.classList.add('hidden')));
+            if (dom.mobileToggle) {
+                dom.mobileToggle.addEventListener('click', () => {
+                    dom.mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scroll
+                });
+            }
+            if (dom.closeMobileMenu) {
+                dom.closeMobileMenu.addEventListener('click', () => {
+                    dom.mobileMenu.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scroll
+                });
+            }
+            if (dom.mobileMenu) {
+                dom.mobileMenu.querySelectorAll('.page-link').forEach(link => {
+                    link.addEventListener('click', () => {
+                        dom.mobileMenu.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
         }
 
         function setupEventListeners() {
-            dom.navLinks.forEach(link => link.addEventListener('click', e => {
-                e.preventDefault();
-                const pageId = link.hash.substring(1);
-                const filter = link.dataset.filter;
+            if (dom.navLinks) {
+                dom.navLinks.forEach(link => link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const pageId = link.hash.substring(1);
+                    const filter = link.dataset.filter;
 
-                showPage(pageId);
+                    showPage(pageId);
 
-                if (pageId === 'collections' && filter) {
-                    setTimeout(() => {
-                        const filterButtons = dom.filtersContainer.querySelectorAll('.filter-btn');
-                        filterButtons.forEach(btn => {
-                            btn.classList.toggle('active', btn.dataset.filter === filter);
-                        });
-                        renderCollections(filter);
-                    }, 100);
-                }
-            }));
-            dom.modalCloseBtn.addEventListener('click', hideItemDetail);
-            dom.itemModal.addEventListener('click', e => { if (e.target === dom.itemModal) hideItemDetail(); });
-            dom.lightbox.addEventListener('click', hideLightbox);
-            dom.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+                    if (pageId === 'collections' && filter) {
+                        setTimeout(() => {
+                            if (dom.filtersContainer) {
+                                const filterButtons = dom.filtersContainer.querySelectorAll('.filter-btn');
+                                filterButtons.forEach(btn => {
+                                    btn.classList.toggle('active', btn.dataset.filter === filter);
+                                });
+                            }
+                            renderCollections(filter);
+                        }, 100);
+                    }
+                }));
+            }
+
+            if (dom.modalCloseBtn) dom.modalCloseBtn.addEventListener('click', hideItemDetail);
+            if (dom.itemModal) dom.itemModal.addEventListener('click', e => { if (e.target === dom.itemModal) hideItemDetail(); });
+            if (dom.lightbox) dom.lightbox.addEventListener('click', hideLightbox);
+            if (dom.backToTop) dom.backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
             window.addEventListener('scroll', () => {
-                dom.header.style.backgroundColor = window.scrollY > 50 ? 'rgba(10, 10, 10, 0.8)' : 'transparent';
-                dom.header.style.backdropFilter = window.scrollY > 50 ? 'blur(10px)' : 'none';
-                dom.backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
-            });
-            dom.reviewForm.addEventListener('submit', async e => {
-                e.preventDefault();
-                dom.reviewResult.textContent = 'Submitting...';
-                const formData = new FormData(dom.reviewForm);
-                try {
-                    await addDoc(collection(db, REVIEWS_PATH), {
-                        name: formData.get('name'), text: formData.get('text'),
-                        rating: parseInt(formData.get('rating') || '5'), timestamp: serverTimestamp()
-                    });
-                    dom.reviewResult.textContent = "Thank you!";
-                    dom.reviewForm.reset();
-                    setTimeout(() => dom.reviewResult.textContent = '', 3000);
-                } catch (err) {
-                    console.error("Failed to submit review:", err);
-                    dom.reviewResult.textContent = "Failed to submit.";
+                if (dom.header) {
+                    dom.header.classList.toggle('scrolled', window.scrollY > 50);
                 }
+                if (dom.backToTop) dom.backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
             });
+
+            if (dom.reviewForm) {
+                dom.reviewForm.addEventListener('submit', async e => {
+                    e.preventDefault();
+                    if (dom.reviewResult) dom.reviewResult.textContent = 'Submitting...';
+                    const formData = new FormData(dom.reviewForm);
+                    try {
+                        await addDoc(collection(db, REVIEWS_PATH), {
+                            name: formData.get('name'), text: formData.get('text'),
+                            rating: parseInt(formData.get('rating') || '5'), timestamp: serverTimestamp()
+                        });
+                        if (dom.reviewResult) dom.reviewResult.textContent = "Thank you!";
+                        dom.reviewForm.reset();
+                        setTimeout(() => { if (dom.reviewResult) dom.reviewResult.textContent = ''; }, 3000);
+                    } catch (err) {
+                        console.error("Failed to submit review:", err);
+                        if (dom.reviewResult) dom.reviewResult.textContent = "Failed to submit.";
+                    }
+                });
+            }
         }
 
         (async function init() {
@@ -2322,7 +2782,7 @@
 
         function initTheme() {
             const themeToggle = document.getElementById('theme-toggle');
-            const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+            const themeToggleMenu = document.getElementById('menu-theme-toggle');
 
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -2337,7 +2797,7 @@
             };
 
             if (themeToggle) themeToggle.addEventListener('click', toggleHandler);
-            if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleHandler);
+            if (themeToggleMenu) themeToggleMenu.addEventListener('click', toggleHandler);
         }
 
         function updateThemeIcons(theme) {
